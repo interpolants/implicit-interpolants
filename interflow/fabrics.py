@@ -4,6 +4,7 @@ from . import util
 import math
 import hashlib
 import os
+from . import net
 
 
 class InputWrapper(torch.nn.Module):
@@ -39,6 +40,21 @@ def make_fc_net(hidden_sizes, in_size, out_size, inner_act, final_act, **config)
                 
     v_net = torch.nn.Sequential(*net)
     return InputWrapper(v_net)
+
+
+def make_u_net(unet_dim, dim_mult, channels, learned_sinusoidal_cond, resnet_block_groups, 
+               learned_variance = False, random_fourier_features = False, learned_sinusoidal_dim = 32, attn_res = 32, attn_heads = 4, **config):
+    return net.Unet(dim = unet_dim,
+                dim_mults = dim_mult,
+                channels = channels,
+                learned_sinusoidal_cond=learned_sinusoidal_cond,
+                resnet_block_groups = resnet_block_groups,
+                learned_variance = learned_variance,
+                random_fourier_features = random_fourier_features,
+                learned_sinusoidal_dim = learned_sinusoidal_dim, 
+                attn_res = attn_res,
+                attn_heads = attn_heads
+                )
 
 
 
